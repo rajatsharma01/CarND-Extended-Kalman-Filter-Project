@@ -53,8 +53,8 @@ FusionEKF::FusionEKF() {
 
   ekf_.Q_ = MatrixXd(4, 4);
   
-  noise_ax = 3;
-  noise_ay = 3;
+  noise_ax = 9;
+  noise_ay = 9;
 }
 
 /**

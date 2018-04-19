@@ -68,9 +68,9 @@ private: // internal methods
   /**
    * Common method sharing common implementation between Update and UpdateEKF
    * @param z The measurement at k+1
-   * @param z_pred The predicted state in measurement space at k+1
+   * @param y error in predicted state
    */
-  void UpdateCommon_(const Eigen::VectorXd &z, const Eigen::VectorXd &z_pred);
+  void UpdateCommon_(const Eigen::VectorXd &z, const Eigen::VectorXd &y);
 };
 
 #endif /* KALMAN_FILTER_H_ */
