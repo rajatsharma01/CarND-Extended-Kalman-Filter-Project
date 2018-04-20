@@ -1,6 +1,5 @@
 #include <iostream>
 #include "tools.h"
-#include <cassert>
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -33,14 +32,6 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 
   rmse /= estimations.size();
   rmse = rmse.array().sqrt();
-
-#if 0
-  // Assert rmse values based on project rubrics
-  assert(rmse(0) <= 0.11);
-  assert(rmse(1) <= 0.11);
-  assert(rmse(2) <= 0.52);
-  assert(rmse(3) <= 0.52);
-#endif
 
   return rmse;
 }

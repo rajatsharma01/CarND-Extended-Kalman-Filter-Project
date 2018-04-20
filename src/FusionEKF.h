@@ -35,6 +35,9 @@ private:
   // check whether the tracking toolbox was initialized or not (first measurement)
   bool is_initialized_;
 
+  bool ignore_radar_;   // Ignore radar measurements
+  bool ignore_laser_;   // Ignore lidar measurements
+
   // previous timestamp
   long long previous_timestamp_;
 

@@ -13,6 +13,8 @@ using std::vector;
  */
 FusionEKF::FusionEKF() {
   is_initialized_ = false;
+  ignore_radar_ = false;
+  ignore_laser_ = false;
 
   previous_timestamp_ = 0;
 
@@ -39,6 +41,9 @@ FusionEKF::FusionEKF() {
   H_laser_ << 1, 0, 0, 0,
               0, 1, 0, 0;
 
+  ekf_.x_ = VectorXd(4);
+  ekf_.x_ << 1, 1, 1, 1;
+
   ekf_.F_ = MatrixXd(4, 4);
   ekf_.F_ << 1, 0, 1, 0,
              0, 1, 0, 1,
@@ -53,8 +58,8 @@ FusionEKF::FusionEKF() {
 
   ekf_.Q_ = MatrixXd(4, 4);
   
-  noise_ax = 9;
-  noise_ay = 9;
+  noise_ax = 25;
+  noise_ay = 25;
 }
 
 /**
@@ -64,6 +69,13 @@ FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
+  if ((measurement_pack.sensor_type_ == MeasurementPackage::RADAR) && ignore_radar_) {
+      return;
+  }
+
+  if ((measurement_pack.sensor_type_ == MeasurementPackage::LASER) && ignore_laser_) {
+      return;
+  }
 
   /*****************************************************************************
    *  Initialization
@@ -77,8 +89,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     */
     // first measurement
     cout << "EKF: " << endl;
-    ekf_.x_ = VectorXd(4);
-    ekf_.x_ << 1, 1, 1, 1;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       /**
